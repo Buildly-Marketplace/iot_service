@@ -1,0 +1,53 @@
+version: "3.1"
+
+services:
+  postgres_iot_service:
+    container_name: postgres_iot_service
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    image: postgres:10.4-alpine
+    environment:
+      POSTGRES_DB: iot_service
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - /var/lib/postgresql/data/
+    restart: always
+
+  iot_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: bash /code/docker-entrypoint.sh
+    container_name: iotservice
+    image: iot_service
+    volumes:
+      - .:/code
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres_iot_service
+    environment:
+      ALLOWED_HOSTS: "*"
+      CORS_ORIGIN_WHITELIST: "*"
+      DATABASE_ENGINE: "postgresql"
+      DATABASE_NAME: "iot_service"
+      DATABASE_USER: "root"
+      DATABASE_PASSWORD: "root"
+      DATABASE_HOST: "postgres_iot_service"
+      DATABASE_PORT: "5432"
+      DEBUG: "True"
+      SECRET_KEY: "nothing"
+      JWT_PUBLIC_KEY_RSA_BUILDLY: |-
+        -----BEGIN PUBLIC KEY-----
+        MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALFc9NFZaOaSwUMPNektbtJqEjYZ6IRB
+        qhqvJu1hKPYn9HYd75c0gIDYHJ9lb7QwQvg44aO27104rDK0xSstzL0CAwEAAQ==
+        -----END PUBLIC KEY-----
+      STATIC_ROOT: /static/
+
+  moquitto_server:
+    container_name: mosquitto_server
+    image: eclipse-mosquitto:1.6.8
