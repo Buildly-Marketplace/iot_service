@@ -42,11 +42,6 @@ INSTALLED_APPS_DJANGO = [
 INSTALLED_APPS_THIRD_PARTIES = [
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters',
-
-    # Health check
-    'health_check',
-        'health_check.db',
 
     # openapi
     'drf_yasg',
@@ -150,8 +145,6 @@ STATIC_ROOT = os.getenv('STATIC_ROOT', 'static/')
 # Rest Framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
