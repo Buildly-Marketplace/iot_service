@@ -1,4 +1,4 @@
-Django~=2.1.7
+Django~=2.2.9
 git+https://github.com/Humanitec/django-oauth-toolkit-jwt@v0.5.2#egg=django-oauth-toolkit-jwt
 djangorestframework==3.9.1
 psycopg2-binary==2.8.3
