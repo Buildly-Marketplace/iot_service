@@ -1,6 +1,6 @@
 Django~=2.2.9
 git+https://github.com/Humanitec/django-oauth-toolkit-jwt@v0.5.2#egg=django-oauth-toolkit-jwt
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 psycopg2-binary==2.8.3
 drf-yasg==1.10.2
 paho-mqtt==1.5.0
